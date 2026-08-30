@@ -11,15 +11,20 @@ public class ApiService {
         Map<String, String> map = new HashMap<>();
 
         try {
-            HttpClient client = HttpClient.newHttpClient();
+            HttpClient client = HttpClient.newBuilder()
+                    .followRedirects(HttpClient.Redirect.NORMAL)
+                    .build();
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://restcountries.com/v3.1/all?fields=name,capital"))
+                    .GET()
                     .build();
 
             HttpResponse<String> response =
                     client.send(request, HttpResponse.BodyHandlers.ofString());
             
+
+            System.out.println("API RESPONSE:");//changes!!
             System.out.println(response.body());
 
             Gson gson = new Gson();
